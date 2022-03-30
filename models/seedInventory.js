@@ -5,15 +5,15 @@ const Schema = mongoose.Schema;
 
 
 const SeedInventorySchema = new Schema({
-    seedID: {type: Number, unique : true, min:1},
-    name: {type: String, unique: true},
-    batchNum: {type: Number},
-    experationDate: {type:Date},
-    weight: {type: Number},
-    wasted: {type: Number},
-    planted: {type: Number},
-    timeToHarves: {type: String},
-    image: {type: String}
+    seedID: Number,
+    name: String, 
+    batchNum: Number,
+    experationDate: Date,
+    weight: Number,
+    wasted: Number,
+    planted: Number,
+    timeToHarves: String,
+    image: String
 });
 
 module.exports= mongoose.model('SeedInventory', SeedInventorySchema);

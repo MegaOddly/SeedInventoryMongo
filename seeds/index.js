@@ -4,7 +4,7 @@ const seedInventory = require('../models/seedInventory');
 
 
 // Connect MongoDB at default port 27017.
-mongoose.connect('mongodb://127.0.0.1/seedInventory', {useNewUrlParser: true,  useUnifiedTopology: true}, ()=>{
+mongoose.connect('mongodb://127.0.0.1/seedDatabase', {useNewUrlParser: true,  useUnifiedTopology: true}, ()=>{
     console.log('db connected')
 });
 const db= mongoose.connection;
