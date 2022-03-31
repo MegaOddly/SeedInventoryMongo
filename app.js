@@ -6,7 +6,6 @@ const methodOverride =  require('method-override')
 
 const seedInventory = require('./models/seedInventory');
 const { request } = require('http');
-const { serializeWithBufferAndIndex } = require('bson');
 
 
 mongoose.set('useFindAndModify', false)
@@ -20,7 +19,6 @@ app.set('view engine', 'ejs');
 app.set('views',path.join(__dirname, 'views'));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
-
 
 
 
@@ -64,12 +62,10 @@ app.put('/dashboard/:id', async(req,res)=>{
         planted = req.body.planted,
         timeToHarvest = req.body.timeToHarvest,
         image = req.body.image;
-    const seeds = await seedInventory(seedID,name,batchNum,experationDate,weight, wasted,planted,timeToHarvest,image);
-    
-     const seedupdated = await seedInventory.findOneAndUpdate(seedInventory.findById(req.params.id),{seeds});
-      res.send({seedupdated})
-    // await seeds.save();
-    // res.redirect(`/dashboard`) ;
+
+    const seeds = await seedInventory.updateOne(seedInventory.findById(req.params.id), seedID,name,batchNum,experationDate,weight,timeToHarvest,image);
+
+    res.redirect(`/dashboard`);
 })
 
 
