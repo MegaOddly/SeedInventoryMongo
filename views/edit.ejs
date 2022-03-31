@@ -13,39 +13,37 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <form action="/dashboard/<%=seeds._id %>?_method=PUT" method="post" name="seeds">
+        <form action="/dashboard/<%=seeds._id %>?_method=PUT" method="POST">
             <div>
                 <label for="title">Seed ID</label>
                 <input type="number" id="seedID" name="seeds[seedID]" value=<%=seeds.seedID%> >
             </div>
             <div>
                 <label for="title">name</label>
-                <input type="text" id="name" name="seeds[names]" value=<%=seeds.name%>>
+                <input type="text" id="name" name="seeds[name]"value=<%=seeds.name%>>
             </div>
             <div>
                 <label for="title">Batch Number</label>
-                <input type="number" id="batchNum" name="seeds[batchNums]" value=<%=seeds.batchNum%>>
-            </div>
+                <input type="number" id="batchNum" name="seeds[batchNum]" value=<%=seeds.batchNum%>>
             <div>
                 <label for="title">Experation Date</label>
-                <input type="date" id="experationDate" name="seeds[experationDates]" value=<%=seeds.experationDate%>>
+                <input type="date" id="experationDate" name="seeds[experationDate]"value=<%=seeds.experationDate%>>
             </div>
             <div>
                 <label for="title">Weight in bulk</label>
-                <input type="number" id="weight" name="seeds[weights]" value=<%=seeds.weight  %>>
+                <input type="number" id="weight" name="seeds[weight]"value=<%=seeds.weight  %>>
             </div>
             <div>
                 <label for="title">Time to Harvest</label>
-                <input type="number" id="timeToHarvest" name="seeds[timeToHarvests]" value=<%=seeds.timeToHarvest%>>
+                <input type="number" id="timeToHarvest" name="seeds[timeToHarvest]"value=<%=seeds.timeToHarvest%>>
             </div>
             <div>
                 <label for="title">Image Link</label>
-                <input type="text" id="image" name="seeds[images]" value=<%=seeds.image%>>
+                <input type="text" id="image" name="seeds[image]"value=<%=seeds.image%>>
             </div>
-            
-            <button>Submit Changes</button>
     
-        </form>
+            <button> Add Seed</button>
+            </form>
         
         <script src="" async defer></script>
     </body>
