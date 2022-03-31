@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Show</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <h1><%= seeds.seedID%></h1>
+        <h1><%= seeds.name%></h1>
+        <h1><%= seeds.batchNum%></h1>
+        <h1><%= seeds.experationDate%></h1>
+        <h1><%= seeds.weight%></h1>
+        <h1><%= seeds.wasted%></h1>
+        <h1><%= seeds.planted%></h1>
+        <h1><%= seeds.timeToHarvest%></h1>
+        <h1><%= seeds.image%></h1>
+
+
+        <p><a href="/dashboard/<%= seeds._id %>/edit">edit</a></p>  
+
+        <script src="" async defer></script>
+    </body>
+</html>

@@ -7,12 +7,12 @@ const Schema = mongoose.Schema;
 const SeedInventorySchema = new Schema({
     seedID: Number,
     name: String, 
-    batchNum: Number,
+    batchNum: String,
     experationDate: Date,
     weight: Number,
     wasted: Number,
     planted: Number,
-    timeToHarves: String,
+    timeToHarvest: String,
     image: String
 });
 

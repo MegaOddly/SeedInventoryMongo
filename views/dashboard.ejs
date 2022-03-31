@@ -17,10 +17,13 @@
         <ul>
             <% for(let seedInventory of seeds) {%>
                 <li>
-                    <%= seedInventory.name %> 
+                    <a href="/dashboard/<%=seedInventory._id %>"><%= seedInventory.name %></a>
                 </li> 
-                <% } %> 
+                
+                <% } %>      
+                         
         </ul>
+        
         
         <script src="" async defer></script>
     </body>
