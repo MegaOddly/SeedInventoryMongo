@@ -2,8 +2,7 @@ const express = require('express');
 const app = express();
 const path=require('path');
 const mongoose = require('mongoose');
-const methodOverride =  require('method-override')
-
+const methodOverride =  require('method-override');
 const seedInventory = require('./models/seedInventory');
 const { request } = require('http');
 
@@ -62,10 +61,10 @@ app.put('/dashboard/:id', async(req,res)=>{
         planted = req.body.planted,
         timeToHarvest = req.body.timeToHarvest,
         image = req.body.image;
-
-    const seeds = await seedInventory.updateOne(seedInventory.findById(req.params.id), seedID,name,batchNum,experationDate,weight,timeToHarvest,image);
-
-    res.redirect(`/dashboard`);
+    const seeds = await seedInventory.findById(req.params.id);
+    const update = await seedInventory.updateOne(seedInventory.findById(req.params.id), 
+        seedID,name,batchNum,experationDate,weight,timeToHarvest,image);
+    res.redirect(`/dashboard/${seeds._id}`);
 })
 
 
