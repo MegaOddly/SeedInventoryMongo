@@ -26,6 +26,9 @@
 
 
         <p><a href="/dashboard/<%= seeds._id %>/edit">edit</a></p>  
+        <form action="/dashboard/<%= seeds._id%>?_method=Delete" method="POST">
+            <button>Delete</button>
+        </form>
 
         <script src="" async defer></script>
     </body>

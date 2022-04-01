@@ -17,6 +17,7 @@ const db= mongoose.connection;
 app.set('view engine', 'ejs');
 app.set('views',path.join(__dirname, 'views'));
 app.use(express.urlencoded({extended: true}));
+//used to inturrupt the POST method to make a put method in its place
 app.use(methodOverride('_method'));
 
 
@@ -30,6 +31,7 @@ app.get('/dashboard', async(req,res)=>{
     const seeds = await seedInventory.find({});
     res.render('dashboard', {seeds});
 })
+//all
 app.get('/dashboard/:id', async(req,res)=>{
     const seeds = await seedInventory.findById(req.params.id);
     res.render('show',{seeds});
@@ -50,7 +52,7 @@ app.get('/dashboard/:id/edit', async(req,res) =>{
     const seeds = await seedInventory.findById(req.params.id);
     res.render('edit',{seeds});
 })
-
+//only admins and employees
 app.put('/dashboard/:id', async(req,res)=>{
     var seedID = req.body.seeds,
         name = req.body.name,
@@ -65,6 +67,12 @@ app.put('/dashboard/:id', async(req,res)=>{
     const update = await seedInventory.updateOne(seedInventory.findById(req.params.id), 
         seedID,name,batchNum,experationDate,weight,timeToHarvest,image);
     res.redirect(`/dashboard/${seeds._id}`);
+})
+
+app.delete('/dashboard/:id', async (req,res) => {
+    const seeds = await seedInventory.findById(req.params.id);
+    await seedInventory.findByIdAndDelete(seeds);
+    res.redirect('/dashboard');
 })
 
 
