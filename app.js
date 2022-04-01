@@ -1,31 +1,77 @@
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const path=require('path');
 const mongoose = require('mongoose');
 const methodOverride =  require('method-override');
 const seedInventory = require('./models/seedInventory');
 const { request } = require('http');
+const passport = require('passport');
+const LocalsStrategy = require('passport-local');
+const User = require('./models/user');
 
-
+/*/  Database */
 mongoose.set('useFindAndModify', false)
 // Connect MongoDB at default port 27017.
 mongoose.connect('mongodb://127.0.0.1/seedDatabase', {useNewUrlParser: true,  useUnifiedTopology: true}, ()=>{
     console.log('db connected')
 });
 const db= mongoose.connection;
-
+/*/  app.sets */
 app.set('view engine', 'ejs');
 app.set('views',path.join(__dirname, 'views'));
 app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 //used to inturrupt the POST method to make a put method in its place
 app.use(methodOverride('_method'));
 
 
 
+
+/*/  Passport Configuration  */
+const sessionConfig = {
+    secret: 'secretcode',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+
+app.use(session(sessionConfig));
+// app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalsStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+/*/  This is the start of the routes */
 //login
 app.get('/', (req,res)=>{
     res.render('login')
 })
+
+app.get('/register', (req,res) => {
+    res.render('register');
+})
+
+app.post('/register', async (req,res)=> {
+    const {email, username, password, role} = req.body;
+    const user = new User({email,username,role});
+    const registeredUser = await User.register(user, password);
+    res.send(registeredUser);
+})
+
+
+
+
+
 //all
 app.get('/dashboard', async(req,res)=>{
     const seeds = await seedInventory.find({});
@@ -42,6 +88,7 @@ app.get('/dashboard/:id', async(req,res)=>{
 app.get('/addseeds', (req,res)=>{
     res.render('addseeds');
 })
+//only admins and employees
 app.post('/dashboard', async(req,res)=>{
     const seeds = new seedInventory(req.body.seeds);
     await seeds.save();
