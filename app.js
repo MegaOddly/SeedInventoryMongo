@@ -9,6 +9,8 @@ const { request } = require('http');
 const passport = require('passport');
 const LocalsStrategy = require('passport-local');
 const User = require('./models/user');
+const flash = require('connect-flash');
+const isLoggedIn = require('./middleware')
 
 /*/  Database */
 mongoose.set('useFindAndModify', false)
@@ -41,7 +43,7 @@ const sessionConfig = {
 }
 
 app.use(session(sessionConfig));
-// app.use(flash());
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -65,20 +67,33 @@ app.post('/register', async (req,res)=> {
     const {email, username, password, role} = req.body;
     const user = new User({email,username,role});
     const registeredUser = await User.register(user, password);
-    res.send(registeredUser);
+    res.redirect('/');
+})
+
+app.post('/login', passport.authenticate('local',{failureFlash: true, failureRedirect: '/'}),(req,res) =>{
+    res.redirect('/dashboard');
 })
 
 
 
 
-
 //all
-app.get('/dashboard', async(req,res)=>{
+app.get('/dashboard' , async(req,res)=>{
+    if(!req.isAuthenticated()){
+        return res.redirect('/');
+    }
+
+
     const seeds = await seedInventory.find({});
     res.render('dashboard', {seeds});
 })
 //all
 app.get('/dashboard/:id', async(req,res)=>{
+    if(!req.isAuthenticated()){
+        return res.redirect('/');
+    }
+
+
     const seeds = await seedInventory.findById(req.params.id);
     res.render('show',{seeds});
 })
@@ -86,21 +101,36 @@ app.get('/dashboard/:id', async(req,res)=>{
 
 //only admins and employees
 app.get('/addseeds', (req,res)=>{
+    if(!req.isAuthenticated()){
+        return res.redirect('/');
+    }
     res.render('addseeds');
 })
 //only admins and employees
 app.post('/dashboard', async(req,res)=>{
+    if(!req.isAuthenticated()){
+        res.redirect('/');
+    }
+
     const seeds = new seedInventory(req.body.seeds);
     await seeds.save();
-    res.send({seeds})
+    res.redirect(`/dashboard/${seeds._id}`)
 })
 //only admins and employees
 app.get('/dashboard/:id/edit', async(req,res) =>{
+    if(!req.isAuthenticated()){
+        return res.redirect('/');
+    }
+
     const seeds = await seedInventory.findById(req.params.id);
     res.render('edit',{seeds});
 })
 //only admins and employees
 app.put('/dashboard/:id', async(req,res)=>{
+    if(!req.isAuthenticated()){
+        return res.redirect('/');
+    }
+
     var seedID = req.body.seeds,
         name = req.body.name,
         batchNum =req.body.batchNum,
@@ -117,6 +147,10 @@ app.put('/dashboard/:id', async(req,res)=>{
 })
 
 app.delete('/dashboard/:id', async (req,res) => {
+    if(!req.isAuthenticated()){
+        return res.redirect('/');
+    }
+
     const seeds = await seedInventory.findById(req.params.id);
     await seedInventory.findByIdAndDelete(seeds);
     res.redirect('/dashboard');
