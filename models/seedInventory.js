@@ -12,10 +12,7 @@ const SeedInventorySchema = new Schema({
     wasted: Number,
     planted: Number,
     timeToHarvest: String,
-    image: String,
-    author: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'}
+    image: String
 });
 
 module.exports= mongoose.model('SeedInventory', SeedInventorySchema);

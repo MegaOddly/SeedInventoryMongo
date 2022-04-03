@@ -12,7 +12,7 @@ const passport = require('passport');
 const LocalsStrategy = require('passport-local');
 const User = require('./models/user');
 const flash = require('connect-flash');
-const { isLoggedIn } = require('./middleware');
+const { isLoggedIn, isEmployee, isAdmin } = require('./middleware');
 
 /*/  Database */
 mongoose.set('useFindAndModify', false)
@@ -65,11 +65,11 @@ app.use((req,res,next) => {
 //login
 
 
-app.get('/register', (req,res) => {
+app.get('/register', isLoggedIn, isAdmin, (req,res) => {
     res.render('register');
 })
 
-app.post('/register', async (req,res)=> {
+app.post('/register', isLoggedIn, isAdmin, async (req,res)=> {
     try {
     const {email, username, password, role} = req.body;
     const user = new User({email,username,role});
@@ -102,20 +102,13 @@ app.get('/logout', (req,res) => {
 
 
 //all
-app.get('/dashboard' , async(req,res)=>{
-    if(!req.isAuthenticated()){
-        return res.redirect('/');
-    }
-
-
+app.get('/dashboard' , isLoggedIn, async(req,res)=>{
     const seeds = await seedInventory.find({});
     res.render('dashboard', {seeds});
 })
 //all
-app.get('/dashboard/:id', async(req,res)=>{
-    if(!req.isAuthenticated()){
-        return res.redirect('/');
-    }
+app.get('/dashboard/:id', isLoggedIn,  async(req,res)=>{
+    
     const seeds = await seedInventory.findById(req.params.id);
     console.log(seeds);
     res.render('show',{seeds});
@@ -123,37 +116,27 @@ app.get('/dashboard/:id', async(req,res)=>{
 
 
 //only admins and employees
-app.get('/addseeds', isLoggedIn, (req,res)=>{
-    // if(!req.isAuthenticated()) {
-    //     return res.redirect('/');
-    // }
+app.get('/addseeds', isLoggedIn , isEmployee , (req,res)=>{
+    
     res.render('addseeds');
 })
 //only admins and employees
 app.post('/dashboard', isLoggedIn ,async(req,res)=>{
-    // if(!req.isAuthenticated()){
-    //     res.redirect('/');
-    // }
+    
 
     const seeds = new seedInventory(req.body.seeds);
     await seeds.save();
     res.redirect(`/dashboard/${seeds._id}`)
 })
 //only admins and employees
-app.get('/dashboard/:id/edit', isLoggedIn, async(req,res) =>{
-    if(!req.isAuthenticated()){
-        return res.redirect('/');
-    }
+app.get('/dashboard/:id/edit', isLoggedIn , isEmployee, async(req,res) =>{
 
     const seeds = await seedInventory.findById(req.params.id);
     console.log(seeds);
     res.render('edit',{seeds});
 })
 //only admins and employees
-app.put('/dashboard/:id', async(req,res)=>{
-    if(!req.isAuthenticated()){
-        return res.redirect('/');
-    }
+app.put('/dashboard/:id', isLoggedIn ,isEmployee, async(req,res)=>{
 
     var seedID = req.body.seeds,
         name = req.body.name,
@@ -166,17 +149,15 @@ app.put('/dashboard/:id', async(req,res)=>{
         image = req.body.image;
 
     const seeds = await seedInventory.findById(req.params.id);
-    console.log(seeds);
-    const update = await seedInventory.updateOne(seedInventory.findById(req.params.id).populate('author'), 
+
+    const update = await seedInventory.updateOne(seedInventory.findById(req.params.id), 
         seedID,name,batchNum,experationDate,weight,timeToHarvest,image);
-    console.log(update);
+    
     res.redirect(`/dashboard/${seeds._id}`);
 })
 
-app.delete('/dashboard/:id', async (req,res) => {
-    if(!req.isAuthenticated()){
-        return res.redirect('/');
-    }
+app.delete('/dashboard/:id', isLoggedIn, isEmployee, async (req,res) => {
+    
 
     const seeds = await seedInventory.findById(req.params.id);
     console.log(seeds);
