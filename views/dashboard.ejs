@@ -8,13 +8,20 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Dashboard</title>
+        
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <h1>Dashboard</h1>
+            <h1>Dashboard</h1>
+            <div class="navbar-nav ml-auto">
+                <a class="nav-link" href="/addSeeds">Add Seeds</a>
+                <a class="nav-link" href="/logout">logout</a>
+            </div>
+        </nav>
         <ul>
+            <h1>Current Inventory</h1>
             <% for(let seedInventory of seeds) {%>
                 <li>
                     <a href="/dashboard/<%=seedInventory._id %>"><%= seedInventory.name %></a>

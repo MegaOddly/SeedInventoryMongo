@@ -24,11 +24,14 @@
         <h1><%= seeds.timeToHarvest%></h1>
         <h1><%= seeds.image%></h1>
 
-
         <p><a href="/dashboard/<%= seeds._id %>/edit">edit</a></p>  
         <form action="/dashboard/<%= seeds._id%>?_method=Delete" method="POST">
             <button>Delete</button>
+            <ul>
+                <li>
+                    <a href="/dashboard">Back to Dashboard</a></li></ul>
         </form>
+        
 
         <script src="" async defer></script>
     </body>

@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-
 const SeedInventorySchema = new Schema({
     seedID: Number,
     name: String, 
@@ -13,7 +12,10 @@ const SeedInventorySchema = new Schema({
     wasted: Number,
     planted: Number,
     timeToHarvest: String,
-    image: String
+    image: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'}
 });
 
 module.exports= mongoose.model('SeedInventory', SeedInventorySchema);
