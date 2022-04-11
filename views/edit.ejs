@@ -16,11 +16,11 @@
         <form action="/dashboard/<%=seeds._id %>?_method=PUT" method="POST">
             <div>
                 <label for="title">Seed ID</label>
-                <input type="number" id="seedID" name="seeds[seedID]" value=<%=seeds.seedID%> >
+                <p><%=seeds.seedID%></p>
             </div>
             <div>
                 <label for="title">name</label>
-                <input type="text" id="name" name="seeds[name]"value=<%=seeds.name%>>
+                <p><%=seeds.name%></p>
             </div>
             <div>
                 <label for="title">Batch Number</label>
@@ -34,12 +34,19 @@
                 <input type="number" id="weight" name="seeds[weight]"value=<%=seeds.weight  %>>
             </div>
             <div>
+                <label for="title">Planted</label>
+                <input type="number" id="planted" name="seeds[planted]"value=<%=seeds.planted  %>>
+            </div>
+            <div>
+                <label for="title">Wasted</label>
+                <input type="number" id="wasted" name="seeds[wasted]"value=<%=seeds.wasted  %>>
+            </div>
+            <div>
                 <label for="title">Time to Harvest</label>
                 <input type="number" id="timeToHarvest" name="seeds[timeToHarvest]"value=<%=seeds.timeToHarvest%>>
             </div>
             <div>
-                <label for="title">Image Link</label>
-                <input type="text" id="image" name="seeds[image]"value=<%=seeds.image%>>
+                <img src="<%=seeds.image%>" alt="">
             </div>
     
             <button> Submit changes</button>

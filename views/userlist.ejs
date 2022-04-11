@@ -14,21 +14,19 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-
-            
             <h1>Dashboard</h1>
            
             <div class="navbar-nav ml-auto">
                 <a class="nav-link" href="/addSeeds">Add Seeds</a>
-                <a class="nav-link" href="/userlist">User list</a>
+                <a class="nav-link" href="/dashboard">dashboard</a>
                 <a class="nav-link" href="/logout">logout</a>
             </div>
         </nav>
         <ul>
             <h1>Current Inventory</h1>
-            <% for(let seedInventory of seeds) {%>
+            <% for(let User of users) {%>
                 <li>
-                    <a href="/dashboard/<%=seedInventory._id %>"><%= seedInventory.name %></a>
+                    <a href="/userlist/<%=User._id %>"><%= User.username %></a>
                 </li> 
                 
                 <% } %>      

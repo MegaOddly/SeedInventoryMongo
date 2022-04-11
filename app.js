@@ -103,6 +103,7 @@ app.get('/logout', (req,res) => {
 
 //all
 app.get('/dashboard' , isLoggedIn, async(req,res)=>{
+    
     const seeds = await seedInventory.find({});
     res.render('dashboard', {seeds});
 })
@@ -112,8 +113,17 @@ app.get('/dashboard/:id', isLoggedIn,  async(req,res)=>{
     const seeds = await seedInventory.findById(req.params.id);
     console.log(seeds);
     res.render('show',{seeds});
-})
 
+})
+//user list pages 
+app.get('/userlist' , isLoggedIn,isAdmin, async(req,res)=>{
+    const users = await User.find({});
+    res.render('userlist', {users});
+})
+app.get('/userlist/:id', isLoggedIn, isAdmin, async(req,res)=>{
+    const users = await User.findById(req.params.id);
+    res.render('showusers',{users});
+})
 
 //only admins and employees
 app.get('/addseeds', isLoggedIn , isEmployee , (req,res)=>{
@@ -151,7 +161,7 @@ app.put('/dashboard/:id', isLoggedIn ,isEmployee, async(req,res)=>{
     const seeds = await seedInventory.findById(req.params.id);
 
     const update = await seedInventory.updateOne(seedInventory.findById(req.params.id), 
-        seedID,name,batchNum,experationDate,weight,timeToHarvest,image);
+        seedID,name,batchNum,experationDate,wasted, planted,weight,timeToHarvest,image);
     
     res.redirect(`/dashboard/${seeds._id}`);
 })
@@ -161,6 +171,12 @@ app.delete('/dashboard/:id', isLoggedIn, isEmployee, async (req,res) => {
     console.log(seeds);
     await seedInventory.findByIdAndDelete(seeds);
     res.redirect('/dashboard');
+})
+app.delete('/userlist/:id', isLoggedIn, isAdmin, async (req,res) => {
+    const users = await User.findById(req.params.id);
+    
+    await User.findByIdAndDelete(users);
+    res.redirect('/userlist');
 })
 
 

@@ -14,15 +14,16 @@
           
     </head>
     <body>
-        <h1><%= seeds.seedID%></h1>
-        <h1><%= seeds.name%></h1>
-        <h1><%= seeds.batchNum%></h1>
-        <h1><%= seeds.experationDate%></h1>
-        <h1><%= seeds.weight%></h1>
-        <h1><%= seeds.wasted%></h1>
-        <h1><%= seeds.planted%></h1>
-        <h1><%= seeds.timeToHarvest%></h1>
-        <img src="<%= seeds.image%>">
+        <div><label>Seed ID:</label><h1><%= seeds.seedID%></h1></div>
+        <div><label>Seed Name:</label><h1><%= seeds.name%></h1></div>
+        <div><label>Seed Batch Number:</label><h1><%= seeds.batchNum%></h1></div>
+        <div><label>Experation Date:</label><h1><%= seeds.experationDate%></h1></div>
+        <div><label>Weight in Bulk:</label><h1><%= seeds.weight%></h1></div>
+        <div><label>Wasted:</label><h1><%= seeds.wasted%></h1></div>
+        <div><label>Planted:</label><h1><%= seeds.planted%></h1></div>
+        <div><label>Time till Harvest:</label><h1><%= seeds.timeToHarvest%></h1></div>
+
+        <img src="<%= seeds.image%>" width="500">
         
 
         <p><a href="/dashboard/<%= seeds._id %>/edit">edit</a></p>  
