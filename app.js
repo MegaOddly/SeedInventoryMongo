@@ -157,8 +157,6 @@ app.put('/dashboard/:id', isLoggedIn ,isEmployee, async(req,res)=>{
 })
 
 app.delete('/dashboard/:id', isLoggedIn, isEmployee, async (req,res) => {
-    
-
     const seeds = await seedInventory.findById(req.params.id);
     console.log(seeds);
     await seedInventory.findByIdAndDelete(seeds);

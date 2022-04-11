@@ -22,7 +22,8 @@
         <h1><%= seeds.wasted%></h1>
         <h1><%= seeds.planted%></h1>
         <h1><%= seeds.timeToHarvest%></h1>
-        <h1><%= seeds.image%></h1>
+        <img src="<%= seeds.image%>">
+        
 
         <p><a href="/dashboard/<%= seeds._id %>/edit">edit</a></p>  
         <form action="/dashboard/<%= seeds._id%>?_method=Delete" method="POST">
