@@ -22,16 +22,15 @@
                 <a class="nav-link" href="/addSeeds">Add Seeds</a>
                 <a class="nav-link" href="/userlist">User list</a>
                 <a class="nav-link" href="/wastedreport">Wasted Report</a>
-                <a class="nav-link" href="/plantedreport">Planted Report</a>
-                <a class="nav-link" href="/notifyreport">Notification Report</a>
                 <a class="nav-link" href="/logout">logout</a>
+                <a class="nav-link" href="/dashboard">Dashboard</a>
             </div>
         </nav>
         <ul>
-            <h1>Current Inventory</h1>
-            <% for(let seedInventory of seeds) {%>
+            <h1>Planted</h1>
+            <% for(let seedInventory of leaderboard) {%>
                 <li>
-                    <a href="/dashboard/<%=seedInventory._id %>"><%= seedInventory.name %></a>
+                    <a href="/dashboard/<%=seedInventory._id %>"><%= seedInventory.name %> <%= seedInventory.planted %></a>
                 </li> 
                 
                 <% } %>      

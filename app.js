@@ -14,6 +14,11 @@ const User = require('./models/user');
 const flash = require('connect-flash');
 const { isLoggedIn, isEmployee, isAdmin } = require('./middleware');
 
+
+
+
+
+
 /*/  Database */
 mongoose.set('useFindAndModify', false)
 // Connect MongoDB at default port 27017.
@@ -130,6 +135,15 @@ app.get('/addseeds', isLoggedIn , isEmployee , (req,res)=>{
     
     res.render('addseeds');
 })
+app.get('/wastedreport', isLoggedIn, isAdmin, async (req,res)=>{
+    var leaderboard = await seedInventory.find().sort({wasted: -1}).limit(5);
+    res.render( 'wastedseeds' ,{leaderboard});
+})
+
+app.get('/plantedreport',isLoggedIn, isAdmin, async (req,res)=>{
+    var leaderboard = await seedInventory.find().sort({planted: -1}).limit(5);
+    res.render( 'plantedseeds' ,{leaderboard});
+})
 //only admins and employees
 app.post('/dashboard', isLoggedIn ,async(req,res)=>{
     
@@ -178,6 +192,13 @@ app.delete('/userlist/:id', isLoggedIn, isAdmin, async (req,res) => {
     await User.findByIdAndDelete(users);
     res.redirect('/userlist');
 })
+
+app.get('/notifyreport',isLoggedIn, async (req,res)=>{
+    
+    var leaderboard = await seedInventory.find({weight: {$lte:500}});
+    res.render('notifyreport', {leaderboard})
+})
+
 
 
 
